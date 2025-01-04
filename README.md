@@ -15,6 +15,9 @@ Through exploratory data analysis and visualization techniques, we will investig
 This project will contribute to a better understanding of customer needs and preferences, ultimately enabling the bank to provide more personalized and efficient services while mitigating potential risks.
 
 ### DATASET: BANK TRANSACTION DATASET
+
+https://www.kaggle.com/datasets/valakhorasani/bank-transaction-dataset-for-fraud-detection
+
 <img width="929" alt="8" src="https://github.com/user-attachments/assets/ecf2971d-4aad-41e8-966d-d9ac8668a970" />
 
 **Number of rows:** 2,512
