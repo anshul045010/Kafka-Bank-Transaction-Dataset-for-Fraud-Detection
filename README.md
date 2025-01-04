@@ -1,4 +1,4 @@
-# Kafka-Bank-Transaction-Dataset-for-Fraud-Detection
+# BANK TRANSACTIONS ANALYSIS
 
 ### OBJECTIVE 
 Understand Customer Behavior: Analyze transaction data to gain insights into customer spending habits, preferences, and risk profiles.
