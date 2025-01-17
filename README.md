@@ -1,11 +1,11 @@
 # BANK TRANSACTIONS ANALYSIS
 
 ### OBJECTIVE 
-Understand Customer Behavior: Analyze transaction data to gain insights into customer spending habits, preferences, and risk profiles.
-Optimize Operations: Improve service delivery, channel utilization, and resource allocation based on customer behavior and transaction patterns.
-Enhance Fraud Detection: Develop models and strategies to detect and prevent fraudulent activities.
-Improve Customer Experience: Enhance customer satisfaction by optimizing service delivery channels and addressing customer needs based on their behavior.
-Develop Targeted Strategies: Develop targeted marketing campaigns, product offerings, and risk management strategies based on customer demographics and transaction behavior.
++ Understand Customer Behavior: Analyze transaction data to gain insights into customer spending habits, preferences, and risk profiles.
++ Optimize Operations: Improve service delivery, channel utilization, and resource allocation based on customer behavior and transaction patterns.
++ Enhance Fraud Detection: Develop models and strategies to detect and prevent fraudulent activities.
++ Improve Customer Experience: Enhance customer satisfaction by optimizing service delivery channels and addressing customer needs based on their behavior.
++ Develop Targeted Strategies: Develop targeted marketing campaigns, product offerings, and risk management strategies based on customer demographics and transaction behavior.
 
 ### INTRODUCTION
 In today's digital age, financial institutions are faced with the challenge of managing a vast amount of transaction data. This data holds invaluable insights into customer behavior, market trends, and potential risks. This project aims to leverage the power of data analytics to gain a deeper understanding of customer behavior and identify key trends within a set of bank transaction data.
