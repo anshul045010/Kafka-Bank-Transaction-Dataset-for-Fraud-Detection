@@ -58,6 +58,112 @@ https://www.kaggle.com/datasets/valakhorasani/bank-transaction-dataset-for-fraud
 
 **16. LoginAttempts:** Number of login attempts before the transaction, with higher values indicating potential anomalies.
 
+## Methodology
+
+### 1. Environment Setup
+   
+- Apache Flink, Kafka, and Elasticsearch were configured in the environment for data streaming, processing, and storage.
+- Required shell scripts and Python scripts were prepared for automation:
+  
+a. `start_flink_nodatagen.sh`: To start Apache Flink without data generation.
+
+b. `convert.py`: To transform data into a Kafka-compatible format.
+
+c. `gen_sample.sh`: To generate and stream data to Kafka topics.
+
+d. `consumer.sh`: To verify and monitor Kafka topic data consumption.
+   
+ ### 2. Data Preparation
+
+- **Source Data:** A synthetic energy consumption dataset in JSON format, `rev_bank.json`, was prepared.
+- **Transformation:** The JSON file was converted into key-value pairs using `convert.py` for Kafka ingestion.
+- **Commands Executed:**
+  
+       python $HOME/Documents/fake/convert.py
+  
+       chmod +x *.sh
+  
+### 3. Data Ingestion into Kafka
+
+- Data was streamed into a Kafka topic named bank_t using `gen_sample.sh`.
+- Each record contained details such as energy consumption, appliance usage, and contextual attributes like season and occupancy status.
+- **Command Executed:**
+  
+      ./gen_sample.sh /home/ashok/Documents/gendata/rev_bank_data.json 500 100 | kafkacat -b localhost:9092 -t bank_data -K: -P
+  
+### 4. Real-Time Stream Processing with Apache Flink
+   
+- Apache Flink consumed data from the `energy_data` Kafka topic for real-time processing and transformation.
+- A Flink SQL table `energy_data` was created to structure the data for downstream usage:
+  
+CREATE TABLE banks_data (
+    id BIGINT PRIMARY KEY,
+    TransactionID string,
+    AccountID string,
+    TransactionAmount float,
+    TransactionDate TIMESTAMP,  -- Simplified TIMESTAMP type
+    TransactionType string,
+    Location string,
+    DeviceID string,
+    IP_Address string,
+    MerchantID string,
+    Channel   string,
+    CustomerAge int,
+    CustomerOccupation  string,
+    TransactionDuration int,
+    LoginAttempts int,
+    AccountBalance int,
+    PreviousTransactionDate TIMESTAMP,
+
+    WATERMARK FOR TransactionDate AS TransactionDate - INTERVAL '5' SECOND
+) WITH (
+    'connector' = 'kafka',
+    'topic' = 'bank_t',
+    'scan.startup.mode' = 'earliest-offset',
+    'properties.bootstrap.servers' = 'kafka:9094',
+    'format' = 'json',
+    'json.timestamp-format.standard' = 'ISO-8601'  -- Ensure correct timestamp format parsing
+);
+
+### 5. Data Storage in Elasticsearch
+- Processed data was stored in an Elasticsearch index `energy_index` for efficient querying and visualization.
+- A Flink SQL table `bank_index` was created to map the processed data into Elasticsearch:
+  
+CREATE TABLE banks_index (
+    id BIGINT PRIMARY KEY,
+    TransactionID string,
+    AccountID string,
+    TransactionAmount float,
+    TransactionDate TIMESTAMP,  -- Simplified TIMESTAMP type
+    TransactionType string,
+    Location string,
+    DeviceID string,
+    IP_Address string,
+    MerchantID string,
+    Channel   string,
+    CustomerAge int,
+    CustomerOccupation  string,
+    TransactionDuration int,
+    LoginAttempts int,
+    AccountBalance int,
+    PreviousTransactionDate TIMESTAMP
+    
+) WITH (
+    'connector' = 'elasticsearch-7',
+    'hosts' = 'http://elasticsearch:9200',
+    'index' = 'banks_index',
+    'format' = 'json',
+    'json.fail-on-missing-field' = 'false',
+    'json.ignore-parse-errors' = 'true',
+    'json.timestamp-format.standard' = 'ISO-8601'
+);
+
+- Data was inserted into bank_index:
+  
+        INSERT INTO bank_index
+        SELECT *
+        FROM bank_data;
+
 ### DASHBOARD 
 https://github.com/user-attachments/assets/514a9143-09de-4a6e-8619-1e5d04b1e1e5
 
